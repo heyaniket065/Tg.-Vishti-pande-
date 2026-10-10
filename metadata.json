@@ -1,0 +1,6 @@
+{
+  "name": "TeleGroup Studio & Bot Control Hub",
+  "description": "Production Telegram group management bot suite inspired by Rose Bot with private chat controls, group linking, cross-posting, moderation, and automated welcome flows.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

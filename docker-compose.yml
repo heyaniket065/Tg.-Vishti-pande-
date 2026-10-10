@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: telegroup_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: telegroup
+      POSTGRES_PASSWORD: secretpassword123
+      POSTGRES_DB: telegroup_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U telegroup -d telegroup_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  bot:
+    build: .
+    container_name: telegroup_bot
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      DATABASE_URL: postgresql+asyncpg://telegroup:secretpassword123@db:5432/telegroup_db
+      BOT_ADMIN_IDS: ${BOT_ADMIN_IDS}
+    volumes:
+      - ./data:/app/data
+
+volumes:
+  pgdata:
