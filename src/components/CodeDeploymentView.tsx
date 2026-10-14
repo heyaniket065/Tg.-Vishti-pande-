@@ -310,24 +310,37 @@ exec python3 -m bot.main`,
           <span>24/7 Deployment Instructions</span>
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-          {/* Method 1: Docker */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
+          {/* Method 1: PM2 Background Runner */}
           <div className="bg-slate-950 border border-slate-800 rounded-lg p-4 space-y-2">
-            <div className="font-semibold text-white">1. Docker Compose (VPS)</div>
+            <div className="font-semibold text-white">1. VPS + PM2 (24/7 Node)</div>
             <p className="text-slate-400 text-[11px] leading-relaxed">
-              Auto-starts PostgreSQL 16 and TeleGroup Bot with automatic reboot on server crashes.
+              सर्वात सोपी पद्धत: सर्व 4 बॉट्स, ऑडिओ ट्रान्सक्राइब आणि डॅशबोर्ड बॅकग्राउंडमध्ये कायमस्वरूपी चालू ठेवा.
             </p>
             <div className="bg-slate-900 p-2.5 rounded font-mono text-[11px] text-indigo-300 space-y-1">
-              <div>cp .env.example .env</div>
-              <div>docker-compose up -d --build</div>
+              <div>npm install</div>
+              <div>pm2 start "npm run dev" --name telegroup-squad</div>
+              <div>pm2 save && pm2 startup</div>
             </div>
           </div>
 
-          {/* Method 2: Systemd */}
+          {/* Method 2: Docker */}
           <div className="bg-slate-950 border border-slate-800 rounded-lg p-4 space-y-2">
-            <div className="font-semibold text-white">2. Linux Systemd Service</div>
+            <div className="font-semibold text-white">2. Docker Container</div>
             <p className="text-slate-400 text-[11px] leading-relaxed">
-              Run directly as a background Linux service under Ubuntu or Debian.
+              Auto-restarts TeleGroup Studio on server reboots or network drops with zero downtime.
+            </p>
+            <div className="bg-slate-900 p-2.5 rounded font-mono text-[11px] text-indigo-300 space-y-1">
+              <div>docker build -t telegroup .</div>
+              <div>docker run -d -p 3000:3000 --restart always telegroup</div>
+            </div>
+          </div>
+
+          {/* Method 3: Systemd */}
+          <div className="bg-slate-950 border border-slate-800 rounded-lg p-4 space-y-2">
+            <div className="font-semibold text-white">3. Linux Systemd Service</div>
+            <p className="text-slate-400 text-[11px] leading-relaxed">
+              Ubuntu/Debian VPS वर थेट native service म्हणून रन करा.
             </p>
             <div className="bg-slate-900 p-2.5 rounded font-mono text-[11px] text-indigo-300 space-y-1">
               <div>sudo systemctl enable telegroup</div>
@@ -335,15 +348,15 @@ exec python3 -m bot.main`,
             </div>
           </div>
 
-          {/* Method 3: Railway / Render */}
+          {/* Method 4: Render / Railway Cloud */}
           <div className="bg-slate-950 border border-slate-800 rounded-lg p-4 space-y-2">
-            <div className="font-semibold text-white">3. Railway / Render Cloud</div>
+            <div className="font-semibold text-white">4. Render / Railway / Fly.io</div>
             <p className="text-slate-400 text-[11px] leading-relaxed">
-              Push to GitHub, add PostgreSQL plugin, set <code className="text-slate-300">TELEGRAM_BOT_TOKEN</code> in env vars.
+              Git repo क्लाऊडवर जोडून थेट 24/7 होस्ट करा. Serverless नाही तर Web Service म्हणून निवडा.
             </p>
             <div className="bg-slate-900 p-2.5 rounded font-mono text-[11px] text-indigo-300 space-y-1">
-              <div>Build: pip install -r requirements.txt</div>
-              <div>Start: python3 -m bot.main</div>
+              <div>Build: npm install && npm run build</div>
+              <div>Start: npm start</div>
             </div>
           </div>
         </div>

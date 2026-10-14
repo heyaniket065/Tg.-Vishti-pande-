@@ -24,10 +24,12 @@ export const TopBar: React.FC<TopBarProps> = ({
 
   const navItems = [
     { id: 'dashboard', label: t.navDashboard },
-    { id: 'simulator', label: t.navSimulator },
+    { id: 'botsquad', label: t.navBotSquad },
+    { id: 'transcribe', label: t.navTranscribe },
     { id: 'crosspost', label: t.navCrossPost },
     { id: 'moderation', label: t.navModeration },
     { id: 'welcome', label: t.navWelcome },
+    { id: 'simulator', label: t.navSimulator },
     { id: 'deployment', label: t.navDeployment },
   ];
 

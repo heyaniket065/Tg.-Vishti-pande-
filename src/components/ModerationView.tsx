@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, AlertTriangle, Ban, Clock, Filter, FileText, CheckCircle2 } from 'lucide-react';
+import { Shield, AlertTriangle, Ban, Clock, Filter, FileText, CheckCircle2, Camera, Trash2 } from 'lucide-react';
 import { SimGroup, SimModLog, SimWarnRecord } from '../types';
 
 interface ModerationViewProps {
@@ -187,6 +187,87 @@ export const ModerationView: React.FC<ModerationViewProps> = ({
             />
           </div>
         </div>
+      </div>
+
+      {/* Module C: Photo & Media Auto-Delete (आपला फोटो डिलीट सिस्टीम) */}
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-pink-950/60 border border-pink-800/80 flex items-center justify-center text-pink-400">
+              <Camera className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-xs font-semibold text-white flex items-center gap-2">
+                <span>Photo & Media Auto-Delete / फोटो ऑटो-डिलीट</span>
+                <span className="text-[10px] bg-pink-950 text-pink-300 font-mono px-2 py-0.5 rounded-full border border-pink-800">
+                  Auto-Destruct
+                </span>
+              </h3>
+              <p className="text-[11px] text-slate-400 mt-0.5">
+                Automatically deletes uploaded photos, videos, and media after a configured countdown to keep group clean and private.
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={() =>
+              onUpdateGroup(selectedGroupId, {
+                photoAutoDeleteEnabled: !currentGroup.photoAutoDeleteEnabled,
+                photoAutoDeleteSeconds: currentGroup.photoAutoDeleteSeconds || 60,
+              })
+            }
+            className={`px-4 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer shrink-0 ${
+              currentGroup.photoAutoDeleteEnabled
+                ? 'bg-pink-950 text-pink-300 border border-pink-800 hover:bg-pink-900/60'
+                : 'bg-slate-800 text-slate-400 hover:text-white'
+            }`}
+          >
+            {currentGroup.photoAutoDeleteEnabled ? '🟢 Auto-Delete Enabled' : '⚪ Auto-Delete Disabled'}
+          </button>
+        </div>
+
+        {currentGroup.photoAutoDeleteEnabled && (
+          <div className="space-y-3 pt-1">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-medium text-slate-300">Auto-Destruct Timer (Sec / Min)</span>
+              <span className="font-mono text-pink-400">
+                {currentGroup.photoAutoDeleteSeconds && currentGroup.photoAutoDeleteSeconds >= 60
+                  ? `${Math.round(currentGroup.photoAutoDeleteSeconds / 60)} min (${currentGroup.photoAutoDeleteSeconds}s)`
+                  : `${currentGroup.photoAutoDeleteSeconds || 60} seconds`}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+              {[
+                { label: '30s (Instant)', sec: 30 },
+                { label: '60s (1 Min)', sec: 60 },
+                { label: '5 Minutes', sec: 300 },
+                { label: '15 Minutes', sec: 900 },
+                { label: '1 Hour', sec: 3600 },
+              ].map((opt) => (
+                <button
+                  key={opt.sec}
+                  type="button"
+                  onClick={() => onUpdateGroup(selectedGroupId, { photoAutoDeleteSeconds: opt.sec })}
+                  className={`py-2 text-xs font-mono rounded-lg border transition-colors cursor-pointer ${
+                    (currentGroup.photoAutoDeleteSeconds || 60) === opt.sec
+                      ? 'bg-pink-950/80 border-pink-600 text-pink-200 font-bold'
+                      : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-2 text-[11px] text-slate-400 bg-slate-950 p-3 rounded-lg border border-slate-800">
+              <Trash2 className="w-4 h-4 text-pink-400 shrink-0" />
+              <span>
+                <strong>Quick Commands in Group:</strong> Admins can also reply to any photo or message with <code className="text-pink-300">/del</code> to delete it instantly, or use <code className="text-pink-300">/purge 10</code> to bulk delete recent messages.
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Group Rules Editor */}

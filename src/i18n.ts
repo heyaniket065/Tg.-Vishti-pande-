@@ -7,6 +7,8 @@ export interface TranslationDictionary {
   navModeration: string;
   navWelcome: string;
   navDeployment: string;
+  navBotSquad: string;
+  navTranscribe: string;
   botNotActiveTitle: string;
   botNotActiveDesc: string;
   botActiveBadge: string;
@@ -28,6 +30,12 @@ export interface TranslationDictionary {
   serverStatus: string;
   refreshBtn: string;
   languageSelectLabel: string;
+  autoBugFixerBtn: string;
+  autoBugFixerDesc: string;
+  syncHistoryTitle: string;
+  syncHistoryDesc: string;
+  photoAutoDeleteTitle: string;
+  photoAutoDeleteDesc: string;
 }
 
 export const translations: Record<AppLanguage, TranslationDictionary> = {
@@ -38,6 +46,8 @@ export const translations: Record<AppLanguage, TranslationDictionary> = {
     navModeration: 'Moderation & Safety',
     navWelcome: 'Welcome Flows',
     navDeployment: 'Code & 24/7 Hosting',
+    navBotSquad: '🤖 Bot Squad (4 Bots)',
+    navTranscribe: '🎙️ Transcribe Audio (Voice)',
     botNotActiveTitle: 'Bot abhi active nahi hai / Bot Token Configure Karein',
     botNotActiveDesc: 'Apne Telegram Bot ko live run karne ke liye BotFather se mila hua API token niche daaliye aur "Activate Bot Now" par click kijiye.',
     botActiveBadge: 'Bot 24/7 Live Hai',
@@ -59,6 +69,12 @@ export const translations: Record<AppLanguage, TranslationDictionary> = {
     serverStatus: 'Bot Engine Status',
     refreshBtn: 'Refresh Logs',
     languageSelectLabel: 'Language / भाषा:',
+    autoBugFixerBtn: '🩺 Run Auto Bug Diagnostics & Fix',
+    autoBugFixerDesc: 'Telegram API, group permissions, cross-post routes aur deletion queues ko auto check aur repair karein.',
+    syncHistoryTitle: '📦 Sync All Past Posts (Purane Messages Transfer Karein)',
+    syncHistoryDesc: 'Group A ke saare purane uploaded messages, photos aur videos Group B me automatic copy karein.',
+    photoAutoDeleteTitle: '📸 Photo Auto-Delete System (Aapla Photo Delete)',
+    photoAutoDeleteDesc: 'Group me bheje gaye photos aur media ko set kiye gaye timer ke baad automatically delete karein.',
   },
   english: {
     navDashboard: 'Dashboard',
@@ -67,6 +83,8 @@ export const translations: Record<AppLanguage, TranslationDictionary> = {
     navModeration: 'Moderation & Safety',
     navWelcome: 'Welcome Flows',
     navDeployment: 'Code & 24/7 Hosting',
+    navBotSquad: '🤖 Bot Squad (4 Bots)',
+    navTranscribe: '🎙️ Transcribe Audio',
     botNotActiveTitle: 'Bot is not active yet / Configure Bot Token',
     botNotActiveDesc: 'To activate your Telegram bot 24/7, paste your Telegram BotFather API token below and click "Activate Bot Now".',
     botActiveBadge: 'Bot is 24/7 Live',
@@ -88,6 +106,12 @@ export const translations: Record<AppLanguage, TranslationDictionary> = {
     serverStatus: 'Bot Engine Status',
     refreshBtn: 'Refresh Logs',
     languageSelectLabel: 'Language:',
+    autoBugFixerBtn: '🩺 Run Auto Bug Diagnostics & Fix',
+    autoBugFixerDesc: 'Auto-verify Telegram API connection, admin rights in linked chats, pipeline health, and auto-purge broken deletion queues.',
+    syncHistoryTitle: '📦 Sync All Past Posts (Backfill History)',
+    syncHistoryDesc: 'Transfer all historical messages, media, photos, and videos from Group A to Group B automatically.',
+    photoAutoDeleteTitle: '📸 Photo Auto-Delete System',
+    photoAutoDeleteDesc: 'Automatically delete uploaded member photos and media after a configurable countdown timer.',
   },
   hindi: {
     navDashboard: 'डैशबोर्ड',
@@ -96,6 +120,8 @@ export const translations: Record<AppLanguage, TranslationDictionary> = {
     navModeration: 'मॉडरेशन व सुरक्षा',
     navWelcome: 'वेलकम फ्लो',
     navDeployment: 'कोड एवं 24/7 होस्टिंग',
+    navBotSquad: '🤖 बॉट स्क्वॉड (4 बॉट्स)',
+    navTranscribe: '🎙️ ऑडियो ट्रांसक्राइब (आवाज़)',
     botNotActiveTitle: 'बॉट अभी सक्रिय नहीं है / बॉट टोकन जोड़ें',
     botNotActiveDesc: 'अपने टेलीग्राम बॉट को 24/7 चालू करने के लिए BotFather से मिला एपीआई टोकन नीचे पेस्ट करें और "Activate Bot Now" पर क्लिक करें।',
     botActiveBadge: 'बॉट 24/7 लाइव है',
@@ -117,6 +143,12 @@ export const translations: Record<AppLanguage, TranslationDictionary> = {
     serverStatus: 'बॉट इंजन स्थिति',
     refreshBtn: 'लॉग्स रीफ्रेश करें',
     languageSelectLabel: 'भाषा चुनें:',
+    autoBugFixerBtn: '🩺 ऑटो बग फिक्स व डायग्नोस्टिक्स',
+    autoBugFixerDesc: 'टेलीग्राम एपीआई, ग्रुप एडमिन अधिकार, क्रॉस-पोस्टिंग और ऑटो-डिलीट कतार की ऑटो जांच और सुधार करें।',
+    syncHistoryTitle: '📦 पुराने सभी मैसेज सिंक करें (इतिहास ट्रांसफर)',
+    syncHistoryDesc: 'ग्रुप A के सभी पुराने संदेश, फोटो और वीडियो अपने-आप ग्रुप B में ट्रांसफर करें।',
+    photoAutoDeleteTitle: '📸 फोटो ऑटो-डिलीट सिस्टम (अपना फोटो डिलीट)',
+    photoAutoDeleteDesc: 'ग्रुप में भेजे गए फोटो और मीडिया को तय समय के बाद ऑटो-डिलीट करें।',
   },
   marathi: {
     navDashboard: 'डॅशबोर्ड',
@@ -125,6 +157,8 @@ export const translations: Record<AppLanguage, TranslationDictionary> = {
     navModeration: 'मॉडरेशन व सुरक्षा',
     navWelcome: 'वेलकम सिस्टीम',
     navDeployment: 'कोड व 24/7 होस्टिंग',
+    navBotSquad: '🤖 बॉट स्क्वॉड (4 बॉट्स)',
+    navTranscribe: '🎙️ ऑडिओ ट्रान्सक्राइब (आवाज)',
     botNotActiveTitle: 'बॉट अजून सक्रिय झालेला नाही / बॉट टोकन जोडा',
     botNotActiveDesc: 'तुमच्या Telegram बॉटला 24/7 सुरू करण्यासाठी BotFather कडील टोकन खाली पेस्ट करून "Activate Bot Now" वर क्लिक करा.',
     botActiveBadge: 'बॉट 24/7 लाइव्ह आहे',
@@ -146,5 +180,11 @@ export const translations: Record<AppLanguage, TranslationDictionary> = {
     serverStatus: 'बॉट इंजिन स्थिती',
     refreshBtn: 'लॉग्स रीफ्रेश करा',
     languageSelectLabel: 'भाषा निवडा:',
+    autoBugFixerBtn: '🩺 ऑटो बग फिक्स व स्वयंचलित दुरुस्ती',
+    autoBugFixerDesc: 'Telegram API, ग्रुप ॲडमिन परवानग्या, क्रॉस-पोस्टिंग मार्ग व डिलीट रांगेची तपासणी करून सर्व त्रुटी दुरुस्त करा.',
+    syncHistoryTitle: '📦 मागील सर्व जुने मेसेज सिंक करा (History Transfer)',
+    syncHistoryDesc: 'ग्रुप A मधील सर्व जुने मेसेज, फोटो आणि व्हिडिओ ग्रुप B मध्ये आपोआप कॉपी व ट्रान्सफर करा.',
+    photoAutoDeleteTitle: '📸 फोटो ऑटो-डिलीट सिस्टीम (आपला फोटो डिलीट)',
+    photoAutoDeleteDesc: 'ग्रुपमध्ये पाठवलेले सर्व फोटो व मीडिया दिलेल्या टायमरनंतर आपोआप सुरक्षितपणे डिलीट करा.',
   },
 };

@@ -2,6 +2,7 @@ export interface SimGroup {
   id: number;
   tgChatId: number;
   title: string;
+  type?: 'group' | 'supergroup' | 'channel' | string;
   memberCount: number;
   isActive: boolean;
   warnLimit: number;
@@ -12,6 +13,11 @@ export interface SimGroup {
   blockLinks: boolean;
   blockedWords: string;
   rulesText: string;
+  welcomeEnabled?: boolean;
+  welcomeDeleteSeconds?: number;
+  photoAutoDeleteEnabled?: boolean;
+  photoAutoDeleteSeconds?: number;
+  lastKnownMessageId?: number;
 }
 
 export interface SimLinkCode {
@@ -32,6 +38,11 @@ export interface SimCrossPost {
   mode: 'COPY' | 'FORWARD';
   isActive: boolean;
   adminOnly: boolean;
+  lastSyncedMessageId?: number;
+  syncTotalCopied?: number;
+  syncTotalSkipped?: number;
+  syncStatus?: 'idle' | 'running' | 'completed' | 'paused' | 'error';
+  syncProgressText?: string;
 }
 
 export interface SimWelcomeConfig {
@@ -97,5 +108,31 @@ export interface LiveEvent {
   chatTitle?: string;
   sender?: string;
   details: string;
+}
+
+export interface ManagedBot {
+  id: string;
+  name: string;
+  username?: string;
+  botId?: number;
+  token: string;
+  persona: string;
+  role: string;
+  roleMarathi: string;
+  avatarEmoji: string;
+  color: string;
+  status: 'online' | 'offline' | 'error';
+  cooldownMinutes: number;
+  autoDeleteHours: number;
+  lastPostedAt?: number;
+  totalActivitiesPosted?: number;
+}
+
+export interface BotActivityTemplate {
+  id: string;
+  botId: string;
+  title: string;
+  type: 'poll' | 'game' | 'meme' | 'question';
+  previewText: string;
 }
 

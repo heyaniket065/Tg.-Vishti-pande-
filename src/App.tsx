@@ -11,6 +11,8 @@ import { CrossPostingView } from './components/CrossPostingView';
 import { WelcomeView } from './components/WelcomeView';
 import { ModerationView } from './components/ModerationView';
 import { CodeDeploymentView } from './components/CodeDeploymentView';
+import { BotSquadView } from './components/BotSquadView';
+import { TranscribeAudioView } from './components/TranscribeAudioView';
 import { BotTokenModal } from './components/BotTokenModal';
 import { AppLanguage } from './i18n';
 import {
@@ -274,6 +276,17 @@ export default function App() {
                 onActivateToken={handleActivateToken}
                 onRefresh={loadState}
                 appLanguage={appLanguage}
+              />
+            )}
+
+            {currentTab === 'botsquad' && (
+              <BotSquadView groups={groups} appLanguage={appLanguage} />
+            )}
+
+            {currentTab === 'transcribe' && (
+              <TranscribeAudioView
+                groups={groups}
+                onNavigateToSquad={() => setCurrentTab('botsquad')}
               />
             )}
 

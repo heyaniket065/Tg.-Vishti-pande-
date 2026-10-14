@@ -1,22 +1,21 @@
-FROM python:3.12-slim
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
+# Install dependencies
+COPY package.json package-lock.json* bun.lock* ./
+RUN npm install
 
-# Install python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy application source code
+COPY . .
 
-# Copy bot source code
-COPY bot/ ./bot/
-COPY .env.example .
+# Build client distribution
+RUN npm run build
 
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
+EXPOSE 3000
 
-CMD ["python", "-m", "bot.main"]
+ENV PORT=3000
+ENV NODE_ENV=production
+
+# Run the 24/7 Telegram bot and web dashboard server
+CMD ["npx", "tsx", "server.ts"]

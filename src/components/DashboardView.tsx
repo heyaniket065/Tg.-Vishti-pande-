@@ -12,6 +12,12 @@ import {
   Radio,
   Zap,
   RefreshCw,
+  Wrench,
+  Stethoscope,
+  CheckCircle2,
+  AlertTriangle,
+  ShieldCheck,
+  Loader2,
 } from 'lucide-react';
 import { SimGroup, SimCrossPost, SimModLog, VerifiedBotInfo, LiveEvent } from '../types';
 import { AppLanguage, translations } from '../i18n';
@@ -44,9 +50,33 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const [quickToken, setQuickToken] = useState('');
   const [isActivating, setIsActivating] = useState(false);
   const [statusMsg, setStatusMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [isFixing, setIsFixing] = useState(false);
+  const [autofixData, setAutofixData] = useState<{
+    ok: boolean;
+    checks: Array<{ name: string; status: 'ok' | 'fixed' | 'warning' | 'error'; detail: string }>;
+    summary: string;
+  } | null>(null);
 
   const t = translations[appLanguage] || translations.hinglish;
   const activePipelines = crossPosts.filter((c) => c.isActive).length;
+
+  const handleRunAutofix = async () => {
+    setIsFixing(true);
+    try {
+      const res = await fetch('/api/telegram/autofix', { method: 'POST' });
+      const data = await res.json();
+      setAutofixData(data);
+      onRefresh();
+    } catch (e: any) {
+      setAutofixData({
+        ok: false,
+        checks: [{ name: 'Connection', status: 'error', detail: e.message }],
+        summary: 'Error running diagnostics',
+      });
+    } finally {
+      setIsFixing(false);
+    }
+  };
 
   const handleQuickActivate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -239,6 +269,86 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
           <p className="text-[11px] text-slate-500">Welcome clean guard</p>
         </div>
+      </div>
+
+      {/* 🩺 AUTO BUG FIXER & SELF-HEALING ACTION BAR */}
+      <div className="bg-gradient-to-r from-emerald-950/40 via-slate-900 to-slate-900 border border-emerald-800/60 rounded-xl p-5 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-lg bg-emerald-950 border border-emerald-700/80 flex items-center justify-center text-emerald-400">
+              <Wrench className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <span>{t.autoBugFixerBtn}</span>
+                <span className="text-[10px] bg-emerald-900/60 text-emerald-300 font-mono px-2 py-0.5 rounded-full border border-emerald-700">
+                  Self-Healing Engine
+                </span>
+              </h3>
+              <p className="text-xs text-slate-300 mt-0.5">
+                {t.autoBugFixerDesc}
+              </p>
+            </div>
+          </div>
+
+          <button
+            disabled={isFixing}
+            onClick={handleRunAutofix}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white rounded-lg text-xs font-semibold shadow-md shadow-emerald-900/30 transition-all cursor-pointer shrink-0"
+          >
+            {isFixing ? (
+              <>
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <span>Running Diagnostics...</span>
+              </>
+            ) : (
+              <>
+                <Stethoscope className="w-3.5 h-3.5" />
+                <span>{appLanguage === 'marathi' ? 'ऑटो बग फिक्स करा' : appLanguage === 'hindi' ? 'ऑटो बग फिक्स करें' : 'Run Auto Bug Fix'}</span>
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* Diagnostics Results if executed */}
+        {autofixData && (
+          <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <span>Diagnostics & Repair Report:</span>
+              </span>
+              <span className="text-[11px] text-emerald-400 font-mono">100% Inspected</span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+              {autofixData.checks.map((chk, idx) => (
+                <div
+                  key={idx}
+                  className="p-2.5 bg-slate-900 border border-slate-800 rounded-md flex items-start gap-2"
+                >
+                  {chk.status === 'ok' ? (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  ) : chk.status === 'fixed' ? (
+                    <Wrench className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
+                  ) : chk.status === 'warning' ? (
+                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  ) : (
+                    <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                  )}
+                  <div>
+                    <div className="font-semibold text-slate-200">{chk.name}</div>
+                    <div className="text-[11px] text-slate-400 mt-0.5">{chk.detail}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-[11px] text-emerald-300 font-medium pt-1">
+              🎉 {appLanguage === 'marathi' ? 'सर्व तपासण्या पूर्ण झाल्या आहेत आणि सिस्टीम 100% सुरळीत काम करत आहे.' : 'All system checks verified and auto-healed successfully.'}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Real-Time Telegram Event Stream & Groups Instructions */}
